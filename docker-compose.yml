@@ -18,7 +18,7 @@ services:
       - ./backend:/usr/src/app
     environment:
       MONGO_URL: mongodb://cchen:123456@mongo:27017/note_database
-      TOKEN_SECRET: idkwhatsecret87655679
+      TOKEN_SECRET: example_secret
     ports:
       - 8080:8080
     depends_on:

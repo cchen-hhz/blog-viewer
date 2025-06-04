@@ -1,0 +1,36 @@
+version: '3.8'
+services:
+  mongo:
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_DATABASE: note_database
+    volumes:
+      - ./mongo_init.js:/docker-entrypoint-initdb.d/mongo-init.js
+      - ./mongo_data:/data/db
+  backend-app:
+    image: backend-server
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    volumes:
+      - ./backend:/usr/src/app
+    environment:
+      MONGO_URL: mongodb://cchen:123456@mongo:27017/note_database
+    ports:
+      - 8080:8080
+    depends_on:
+      - mongo
+
+  nginx:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    image: client-nginx-prod
+    ports:
+      - 9000:80
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - backend-app

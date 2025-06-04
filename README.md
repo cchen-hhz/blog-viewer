@@ -4,8 +4,6 @@
 
 ## 使用
 
-在 `docker-compose.yml` 中将 `TOKEN_SECRET` 替换。
-
 ```bash
 docker compose -f docker-compose.yml up --build
 ```
